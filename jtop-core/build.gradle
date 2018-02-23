@@ -1,0 +1,5 @@
+dependencies {
+    compile files("${System.properties['java.home']}/../lib/tools.jar")
+
+    testCompile group: 'org.spockframework', name: 'spock-core', version: '1.1-groovy-2.4'
+}
