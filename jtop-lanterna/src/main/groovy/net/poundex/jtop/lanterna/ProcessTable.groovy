@@ -4,6 +4,7 @@ import com.googlecode.lanterna.gui2.BorderLayout
 import com.googlecode.lanterna.gui2.table.Table
 import com.googlecode.lanterna.gui2.table.TableModel
 import groovy.transform.CompileStatic
+import net.poundex.jtop.core.config.JtopConfig
 import net.poundex.jtop.core.snapshot.Snapshot
 import net.poundex.jtop.core.snapshot.SnapshotListener
 import net.poundex.jtop.core.snapshot.SnapshotManager
@@ -13,33 +14,24 @@ import org.springframework.beans.factory.InitializingBean
 class ProcessTable extends Table<String> implements SnapshotListener, InitializingBean
 {
 	private final SnapshotManager snapshotManager
+	private final JtopConfig jtopConfig
 
-	ProcessTable(SnapshotManager snapshotManager)
+	ProcessTable(SnapshotManager snapshotManager, JtopConfig jtopConfig)
 	{
 		super("Loading...")
 		this.snapshotManager = snapshotManager
+		this.jtopConfig = jtopConfig
 		setLayoutData(BorderLayout.Location.CENTER)
 	}
 
 	@Override
 	void receiveSnapshot(Snapshot snapshot)
 	{
-		TableModel<String> newTableModel = new TableModel<>("PID", "User", "Pr", "N", "Virt", "Res", "Shr", "S", "%CPU", "%Mem", "Time", "Ports", "Application")
+		TableModel<String> newTableModel = new TableModel<>(jtopConfig.columns*.displayString as String[])
 		snapshot.applications.each { pid, details ->
-			newTableModel.addRow(
-					pid.toString(),
-					details.processInfo.user,
-					details.processInfo.priority,
-					details.processInfo.niceness,
-					details.processInfo.virtual,
-					details.processInfo.reserved,
-					details.processInfo.shared,
-					details.processInfo.status,
-					details.processInfo.cpu,
-					details.processInfo.mem,
-					details.processInfo.cputime,
-					details.ports.collect { "${it.protocol}:${it.port}" }.join(', '),
-					details.vmInfo.mainClass)
+			newTableModel.addRow(jtopConfig.columns.collect { col ->
+				col.render(details)
+			})
 		}
 		tableModel = newTableModel
 	}

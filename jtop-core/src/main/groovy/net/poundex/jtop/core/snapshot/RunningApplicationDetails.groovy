@@ -14,4 +14,9 @@ class RunningApplicationDetails
 	RunningProcessInfo processInfo
 	RunningVirtualMachineInfo vmInfo
 	List<BindingInfo> ports
+
+	String getPidString()
+	{
+		return pid.toString()
+	}
 }

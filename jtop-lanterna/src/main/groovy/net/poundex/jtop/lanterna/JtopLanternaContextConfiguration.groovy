@@ -9,6 +9,7 @@ import com.googlecode.lanterna.terminal.Terminal
 import groovy.transform.CompileStatic
 import net.poundex.jtop.core.app.ApplicationService
 import net.poundex.jtop.core.JtopContextConfiguration
+import net.poundex.jtop.core.config.JtopConfig
 import net.poundex.jtop.core.snapshot.SnapshotManager
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -41,9 +42,9 @@ class JtopLanternaContextConfiguration
 	}
 
 	@Bean
-	ProcessTable processTable(SnapshotManager snapshotManager)
+	ProcessTable processTable(SnapshotManager snapshotManager, JtopConfig jtopConfig)
 	{
-		return new ProcessTable(snapshotManager)
+		return new ProcessTable(snapshotManager, jtopConfig)
 	}
 
 	@Bean

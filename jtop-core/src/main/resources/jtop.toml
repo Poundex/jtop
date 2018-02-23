@@ -4,6 +4,7 @@ columns = [
     "USER",
     "PRIORITY",
     "NICENESS",
+    "VIRTUAL",
     "RESERVED",
     "SHARED",
     "STATUS",
