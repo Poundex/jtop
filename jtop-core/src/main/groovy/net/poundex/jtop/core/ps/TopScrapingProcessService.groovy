@@ -1,11 +1,13 @@
-package net.poundex.jtop.core
+package net.poundex.jtop.core.ps
 
-import groovy.transform.Immutable
+import groovy.transform.CompileStatic
 
-@Singleton
-class SystemProcessService {
-
-	Map<Integer, RunningProcessInfo> getRunningProcesses() {
+@CompileStatic
+class TopScrapingProcessService implements SystemProcessService
+{
+	@Override
+	Map<Integer, RunningProcessInfo> getRunningProcesses()
+	{
 		String rawTop = "top -bn1".execute().text
 		Scanner s =  new Scanner(rawTop).useDelimiter('PID.*\n')
 		s.next()
@@ -27,23 +29,5 @@ class SystemProcessService {
 					s2.next(),
 					s2.next())]
 		}
-	}
-
-	@Immutable
-	static class RunningProcessInfo {
-		int pid
-		String user
-		String priority
-		String niceness
-
-		String virtual
-		String reserved
-		String shared
-
-		String status
-		String cpu
-		String mem
-		String cputime
-		String command
 	}
 }

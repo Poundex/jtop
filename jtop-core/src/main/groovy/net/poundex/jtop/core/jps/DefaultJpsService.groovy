@@ -1,11 +1,12 @@
-package net.poundex.jtop.core
+package net.poundex.jtop.core.jps
 
-import groovy.transform.Immutable
+import groovy.transform.CompileStatic
 import sun.jvmstat.monitor.*
 
-@Singleton
-class JpsService
+@CompileStatic
+class DefaultJpsService implements JpsService
 {
+	@Override
 	List<RunningVirtualMachineInfo> getRunningVMs()
 	{
 		HostIdentifier hostIdentifier = new HostIdentifier('localhost')
@@ -26,17 +27,6 @@ class JpsService
 				null
 			}
 		}.findAll()
-	}
-
-	@Immutable
-	static class RunningVirtualMachineInfo
-	{
-		int pid
-		String mainClass
-		String mainArgs
-		String jvmArgs
-		String jvmFlags
-		String vmVersion
 	}
 }
 

@@ -1,7 +1,8 @@
 apply plugin: "application"
-mainClassName = "net.poundex.jtop.JtopApplication"
+mainClassName = "net.poundex.jtop.lanterna.JtopApplication"
 
 dependencies {
 	compile project(":jtop-core")
+
 	compile group: 'com.googlecode.lanterna', name: 'lanterna', version: '3.0.0'
 }
