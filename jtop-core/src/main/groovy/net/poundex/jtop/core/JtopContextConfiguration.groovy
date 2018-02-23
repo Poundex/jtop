@@ -5,6 +5,8 @@ import net.poundex.jtop.core.app.ApplicationService
 import net.poundex.jtop.core.app.DefaultApplicationService
 import net.poundex.jtop.core.jps.DefaultJpsService
 import net.poundex.jtop.core.jps.JpsService
+import net.poundex.jtop.core.ports.NetstatScrapingPortsService
+import net.poundex.jtop.core.ports.PortsService
 import net.poundex.jtop.core.ps.SystemProcessService
 import net.poundex.jtop.core.ps.TopScrapingProcessService
 import net.poundex.jtop.core.snapshot.SnapshotManager
@@ -29,9 +31,9 @@ class JtopContextConfiguration
 	}
 
 	@Bean
-	SnapshotService snapshotService(JpsService jpsService, SystemProcessService systemProcessService)
+	SnapshotService snapshotService(JpsService jpsService, SystemProcessService systemProcessService, PortsService portsService)
 	{
-		return new SnapshotService(jpsService, systemProcessService)
+		return new SnapshotService(jpsService, systemProcessService, portsService)
 	}
 
 	@Bean
@@ -44,5 +46,11 @@ class JtopContextConfiguration
 	ApplicationService applicationService()
 	{
 		return new DefaultApplicationService()
+	}
+
+	@Bean
+	PortsService portsService()
+	{
+		return new NetstatScrapingPortsService()
 	}
 }

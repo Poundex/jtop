@@ -24,7 +24,7 @@ class ProcessTable extends Table<String> implements SnapshotListener, Initializi
 	@Override
 	void receiveSnapshot(Snapshot snapshot)
 	{
-		TableModel<String> newTableModel = new TableModel<>("PID", "User", "Pr", "N", "Virt", "Res", "Shr", "S", "%CPU", "%Mem", "Time", "Application")
+		TableModel<String> newTableModel = new TableModel<>("PID", "User", "Pr", "N", "Virt", "Res", "Shr", "S", "%CPU", "%Mem", "Time", "Ports", "Application")
 		snapshot.applications.each { pid, details ->
 			newTableModel.addRow(
 					pid.toString(),
@@ -38,6 +38,7 @@ class ProcessTable extends Table<String> implements SnapshotListener, Initializi
 					details.processInfo.cpu,
 					details.processInfo.mem,
 					details.processInfo.cputime,
+					details.ports.collect { "${it.protocol}:${it.port}" }.join(', '),
 					details.vmInfo.mainClass)
 		}
 		tableModel = newTableModel
