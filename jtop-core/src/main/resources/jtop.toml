@@ -1,0 +1,17 @@
+tickInterval = 800
+columns = [
+    "PID",
+    "USER",
+    "PRIORITY",
+    "NICENESS",
+    "RESERVED",
+    "SHARED",
+    "STATUS",
+    "PCPU",
+    "PMEM",
+    "CPU_TIME",
+    "PORTS",
+    "APPLICATION"
+]
+
+

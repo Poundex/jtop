@@ -2,6 +2,7 @@ dependencies {
     compile files("${System.properties['java.home']}/../lib/tools.jar")
 
 	compile group: 'org.springframework', name: 'spring-context', version: '5.0.4.RELEASE'
+	compile group: 'com.moandjiezana.toml', name: 'toml4j', version: '0.7.2'
 
 	testCompile group: 'org.spockframework', name: 'spock-core', version: '1.1-groovy-2.4'
 }

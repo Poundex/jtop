@@ -1,6 +1,7 @@
 package net.poundex.jtop.core.snapshot
 
 import groovy.transform.CompileStatic
+import net.poundex.jtop.core.config.JtopConfig
 import org.springframework.beans.factory.InitializingBean
 
 @CompileStatic
@@ -8,10 +9,12 @@ class SnapshotManager implements InitializingBean
 {
 	private final SnapshotService snapshotService
 	private final List<SnapshotListener> snapshotListeners = []
+	private final JtopConfig jtopConfig
 
-	SnapshotManager(SnapshotService snapshotService)
+	SnapshotManager(SnapshotService snapshotService, JtopConfig jtopConfig)
 	{
 		this.snapshotService = snapshotService
+		this.jtopConfig = jtopConfig
 	}
 
 	void addSnapshotListener(SnapshotListener snapshotListener) {
@@ -25,7 +28,7 @@ class SnapshotManager implements InitializingBean
 			while(true)
 			{
 				snapshotListeners*.receiveSnapshot(snapshotService.snapshot)
-				Thread.sleep(800)
+				Thread.sleep(jtopConfig.tickInterval)
 			}
 		}
 	}
