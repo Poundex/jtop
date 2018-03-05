@@ -1,13 +1,12 @@
 package net.poundex.jtop.lanterna
 
 import com.googlecode.lanterna.gui2.*
-import com.googlecode.lanterna.gui2.dialogs.DialogWindow
 import groovy.transform.CompileStatic
 import net.poundex.jtop.core.config.JtopConfig
 import net.poundex.jtop.core.config.TableColumn
 
 @CompileStatic
-class ColumnChooserDialog extends DialogWindow
+class ColumnChooserDialog extends JtopModalDialog
 {
 	private final JtopConfig jtopConfig
 	private List<TableColumn> columnsInOrder
@@ -83,7 +82,8 @@ class ColumnChooserDialog extends DialogWindow
 				})
 	}
 
-	private void saveAndClose()
+	@Override
+	void saveAndClose()
 	{
 		jtopConfig.columns.clear()
 		jtopConfig.columns.addAll columnsInOrder.findAll { visibleColumns[it] }
