@@ -29,19 +29,14 @@ class KeyListener extends WindowListenerAdapter
 	{
 		if(keyStroke.keyType == KeyType.Delete)
 			if(keyStroke.shiftDown)
-				applicationService.kill(selectedPid)
+				applicationService.kill(processTable.selectedPid)
 			else
-				applicationService.terminate(selectedPid)
+				applicationService.terminate(processTable.selectedPid)
 		else if(keyStroke.keyType == KeyType.F2)
 			columnChooserDialogFactory.object.showDialog(GuiHolder.multiWindowTextGUI)
 		else
 			return
 
 		hasBeenHandled.set(true)
-	}
-
-	private int getSelectedPid()
-	{
-		return processTable.tableModel.getRow(processTable.getSelectedRow()).first().toInteger()
 	}
 }

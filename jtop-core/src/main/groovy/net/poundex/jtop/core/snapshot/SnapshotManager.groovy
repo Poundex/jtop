@@ -17,7 +17,8 @@ class SnapshotManager implements InitializingBean
 		this.jtopConfig = jtopConfig
 	}
 
-	void addSnapshotListener(SnapshotListener snapshotListener) {
+	void addSnapshotListener(SnapshotListener snapshotListener)
+	{
 		snapshotListeners << snapshotListener
 	}
 

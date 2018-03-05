@@ -15,6 +15,7 @@ class ProcessTable extends Table<String> implements SnapshotListener, Initializi
 {
 	private final SnapshotManager snapshotManager
 	private final JtopConfig jtopConfig
+	private int[] rowToPid
 
 	ProcessTable(SnapshotManager snapshotManager, JtopConfig jtopConfig)
 	{
@@ -27,11 +28,13 @@ class ProcessTable extends Table<String> implements SnapshotListener, Initializi
 	@Override
 	void receiveSnapshot(Snapshot snapshot)
 	{
+		rowToPid = new int[snapshot.applications.size()]
 		TableModel<String> newTableModel = new TableModel<>(jtopConfig.columns*.displayString as String[])
-		snapshot.applications.each { pid, details ->
+		snapshot.applications.eachWithIndex { pid, details, row ->
 			newTableModel.addRow(jtopConfig.columns.collect { col ->
 				col.render(details)
 			})
+			rowToPid[row] = pid
 		}
 		tableModel = newTableModel
 	}
@@ -40,5 +43,10 @@ class ProcessTable extends Table<String> implements SnapshotListener, Initializi
 	void afterPropertiesSet()
 	{
 		snapshotManager.addSnapshotListener(this)
+	}
+
+	Integer getSelectedPid()
+	{
+		return rowToPid[selectedRow]
 	}
 }

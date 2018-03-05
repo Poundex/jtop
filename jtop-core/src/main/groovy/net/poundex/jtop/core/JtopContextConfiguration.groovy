@@ -67,9 +67,12 @@ class JtopContextConfiguration
 		Path userConfig = Paths.get(System.properties['user.home'].toString()).
 				resolve(".jtop/").
 				resolve("jtop.toml")
+		JtopConfig config
 		if(Files.isRegularFile(userConfig))
-			return toml.read(Files.newInputStream(userConfig)).to(JtopConfig)
+			config = toml.read(Files.newInputStream(userConfig)).to(JtopConfig)
 		else
-			return toml.read(getClass().getResourceAsStream("/jtop.toml")).to(JtopConfig)
+			config = toml.read(getClass().getResourceAsStream("/jtop.toml")).to(JtopConfig)
+		config.writeTarget = userConfig
+		return config
 	}
 }
