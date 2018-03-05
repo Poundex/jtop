@@ -6,6 +6,7 @@ import com.googlecode.lanterna.input.KeyStroke
 import com.googlecode.lanterna.input.KeyType
 import groovy.transform.CompileStatic
 import net.poundex.jtop.core.app.ApplicationService
+import org.springframework.beans.factory.ObjectFactory
 
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -14,11 +15,13 @@ class KeyListener extends WindowListenerAdapter
 {
 	private final ApplicationService applicationService
 	private final ProcessTable processTable
+	private final ObjectFactory<ColumnChooserDialog> columnChooserDialogFactory
 
-	KeyListener(ApplicationService applicationService, ProcessTable processTable)
+	KeyListener(ApplicationService applicationService, ProcessTable processTable, ObjectFactory<ColumnChooserDialog> columnChooserDialogFactory)
 	{
 		this.applicationService = applicationService
 		this.processTable = processTable
+		this.columnChooserDialogFactory = columnChooserDialogFactory
 	}
 
 	@Override
@@ -29,6 +32,8 @@ class KeyListener extends WindowListenerAdapter
 				applicationService.kill(selectedPid)
 			else
 				applicationService.terminate(selectedPid)
+		else if(keyStroke.keyType == KeyType.F2)
+			columnChooserDialogFactory.object.showDialog(GuiHolder.multiWindowTextGUI)
 		else
 			return
 

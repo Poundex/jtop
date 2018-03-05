@@ -5,7 +5,7 @@ import groovy.transform.CompileStatic
 
 @CompileStatic
 @Canonical
-class JtopConfig
+class JtopConfig implements ConfigWriter
 {
 	int tickInterval
 	List<TableColumn> columns

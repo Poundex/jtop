@@ -11,9 +11,12 @@ import net.poundex.jtop.core.app.ApplicationService
 import net.poundex.jtop.core.JtopContextConfiguration
 import net.poundex.jtop.core.config.JtopConfig
 import net.poundex.jtop.core.snapshot.SnapshotManager
+import org.springframework.beans.factory.ObjectFactory
+import org.springframework.beans.factory.config.BeanDefinition
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Import
+import org.springframework.context.annotation.Scope
 
 @Configuration
 @Import(JtopContextConfiguration)
@@ -48,9 +51,9 @@ class JtopLanternaContextConfiguration
 	}
 
 	@Bean
-	KeyListener keyListener(ApplicationService applicationService, ProcessTable processTable)
+	KeyListener keyListener(ApplicationService applicationService, ProcessTable processTable, ObjectFactory<ColumnChooserDialog> columnChooserDialog)
 	{
-		return new KeyListener(applicationService, processTable)
+		return new KeyListener(applicationService, processTable, columnChooserDialog)
 	}
 
 	@Bean
@@ -70,8 +73,17 @@ class JtopLanternaContextConfiguration
 		Thread.start {
 			MultiWindowTextGUI gui = new MultiWindowTextGUI(screen, new DefaultWindowManager(),
 					new EmptySpace(TextColor.ANSI.BLUE))
+			GuiHolder.multiWindowTextGUI = gui
 			gui.addWindowAndWait(window)
 		}
+
 		return window
+	}
+
+	@Bean
+	@Scope(BeanDefinition.SCOPE_PROTOTYPE)
+	ColumnChooserDialog columnChooserDialog(JtopConfig config)
+	{
+		return new ColumnChooserDialog(config)
 	}
 }

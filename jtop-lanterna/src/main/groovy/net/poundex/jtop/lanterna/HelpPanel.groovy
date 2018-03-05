@@ -12,6 +12,7 @@ class HelpPanel extends Panel
 		Panel panel = new Panel(new LinearLayout(Direction.HORIZONTAL))
 		panel.addComponent(new Label("[DEL] Terminate"))
 		panel.addComponent(new Label("[SHIFT]+[DEL] Kill"))
+		panel.addComponent(new Label("[F2] Columns"))
 		addComponent(panel)
 	}
 }
