@@ -13,6 +13,8 @@ class FilterDialog extends JtopModalDialog
 	private final SnapshotManager snapshotManager
 	private Set<String> filterExclude = new HashSet<>()
 	private Map<String, CheckBox> packageToCheckbox = [:]
+	private String lastFocus
+	private CheckBox lastFocusable
 
 	FilterDialog(SnapshotManager snapshotManager, JtopConfig jtopConfig)
 	{
@@ -75,13 +77,24 @@ class FilterDialog extends JtopModalDialog
 					filterExclude << packageOrClass
 				else
 					filterExclude.removeAll { packageOrClass.startsWith(it) }
+				lastFocus = packageOrClass
 				setComponent(getPanel())
 			}
 			packageToCheckbox[packageOrClass] = checkBox
+			if(lastFocus == packageOrClass)
+				lastFocusable = checkBox
 			p2.addComponent(checkBox)
 			panel.addComponent(p2)
 			if((v as Map).size() > 0)
 				renderFilterCheckboxesInto(panel, v as Map<String, Object>, depth + 1, "${atPackage}.${k}")
 		}
+	}
+
+	@Override
+	void setComponent(Component component)
+	{
+		super.setComponent(component)
+		if(lastFocusable)
+			lastFocusable.takeFocus()
 	}
 }
