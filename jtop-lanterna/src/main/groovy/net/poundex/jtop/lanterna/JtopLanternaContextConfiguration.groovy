@@ -51,9 +51,9 @@ class JtopLanternaContextConfiguration
 	}
 
 	@Bean
-	KeyListener keyListener(ApplicationService applicationService, ProcessTable processTable, ObjectFactory<ColumnChooserDialog> columnChooserDialog)
+	KeyListener keyListener(ApplicationService applicationService, ProcessTable processTable, ObjectFactory<ColumnChooserDialog> columnChooserDialog, ObjectFactory<FilterDialog> filterDialogObjectFactory)
 	{
-		return new KeyListener(applicationService, processTable, columnChooserDialog)
+		return new KeyListener(applicationService, processTable, columnChooserDialog, filterDialogObjectFactory)
 	}
 
 	@Bean
@@ -85,5 +85,12 @@ class JtopLanternaContextConfiguration
 	ColumnChooserDialog columnChooserDialog(JtopConfig config)
 	{
 		return new ColumnChooserDialog(config)
+	}
+
+	@Bean
+	@Scope(BeanDefinition.SCOPE_PROTOTYPE)
+	FilterDialog filterDialog(SnapshotManager snapshotManager, JtopConfig jtopConfig)
+	{
+		return new FilterDialog(snapshotManager, jtopConfig)
 	}
 }

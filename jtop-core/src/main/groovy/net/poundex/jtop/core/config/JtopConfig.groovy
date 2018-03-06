@@ -12,6 +12,7 @@ class JtopConfig implements ConfigWriter
 	int tickInterval
 	List<TableColumn> columns
 	Path writeTarget
+	Set<String> filterExclude
 
 	void setColumns(List<String> columns)
 	{

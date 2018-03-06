@@ -13,6 +13,7 @@ class HelpPanel extends Panel
 		panel.addComponent(new Label("[DEL] Terminate"))
 		panel.addComponent(new Label("[SHIFT]+[DEL] Kill"))
 		panel.addComponent(new Label("[F2] Columns"))
+		panel.addComponent(new Label("[F3] Filter"))
 		addComponent(panel)
 	}
 }

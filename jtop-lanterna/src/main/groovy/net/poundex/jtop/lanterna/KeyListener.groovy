@@ -16,12 +16,14 @@ class KeyListener extends WindowListenerAdapter
 	private final ApplicationService applicationService
 	private final ProcessTable processTable
 	private final ObjectFactory<ColumnChooserDialog> columnChooserDialogFactory
+	private final ObjectFactory<FilterDialog> filterDialogFactory
 
-	KeyListener(ApplicationService applicationService, ProcessTable processTable, ObjectFactory<ColumnChooserDialog> columnChooserDialogFactory)
+	KeyListener(ApplicationService applicationService, ProcessTable processTable, ObjectFactory<ColumnChooserDialog> columnChooserDialogFactory, ObjectFactory<FilterDialog> filterDialogFactory)
 	{
 		this.applicationService = applicationService
 		this.processTable = processTable
 		this.columnChooserDialogFactory = columnChooserDialogFactory
+		this.filterDialogFactory = filterDialogFactory
 	}
 
 	@Override
@@ -34,6 +36,8 @@ class KeyListener extends WindowListenerAdapter
 				applicationService.terminate(processTable.selectedPid)
 		else if(keyStroke.keyType == KeyType.F2)
 			columnChooserDialogFactory.object.showDialog(GuiHolder.multiWindowTextGUI)
+		else if(keyStroke.keyType == KeyType.F3)
+			filterDialogFactory.object.showDialog(GuiHolder.multiWindowTextGUI)
 		else
 			return
 

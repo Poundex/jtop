@@ -30,7 +30,11 @@ class ProcessTable extends Table<String> implements SnapshotListener, Initializi
 	{
 		rowToPid = new int[snapshot.applications.size()]
 		TableModel<String> newTableModel = new TableModel<>(jtopConfig.columns*.displayString as String[])
-		snapshot.applications.eachWithIndex { pid, details, row ->
+		snapshot.applications.findAll { k, v ->
+			! jtopConfig.filterExclude.any { fex ->
+				v.vmInfo.mainClass.startsWith(fex)
+			}
+		}.eachWithIndex { pid, details, row ->
 			newTableModel.addRow(jtopConfig.columns.collect { col ->
 				col.render(details)
 			})

@@ -7,6 +7,8 @@ import org.springframework.beans.factory.InitializingBean
 @CompileStatic
 class SnapshotManager implements InitializingBean
 {
+	private Snapshot lastSnapshot
+
 	private final SnapshotService snapshotService
 	private final List<SnapshotListener> snapshotListeners = []
 	private final JtopConfig jtopConfig
@@ -28,9 +30,16 @@ class SnapshotManager implements InitializingBean
 		Thread.startDaemon {
 			while(true)
 			{
-				snapshotListeners*.receiveSnapshot(snapshotService.snapshot)
+				Snapshot snapshot = snapshotService.snapshot
+				lastSnapshot = snapshot
+				snapshotListeners*.receiveSnapshot(snapshot)
 				Thread.sleep(jtopConfig.tickInterval)
 			}
 		}
+	}
+
+	Snapshot getLastSnapshot()
+	{
+		return lastSnapshot
 	}
 }
